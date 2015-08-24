@@ -1,4 +1,17 @@
-// Homepage
-exports.index = function(req, res) {
-	res.render('index', {title: 'Welcome!'});
-};
+var express = require('express');
+var router = express.Router();
+router.get('/users', function(req, res, next) {
+	res.send('respond with a resource');
+});
+router.get('/register', function(req, res, next) {
+	res.render('register', {
+		'title': 'Register'
+	});
+});
+router.get('/login', function(req, res, next) {
+	res.render('login', {
+		'title': 'Log In'
+	});
+});
+
+module.exports = router;
