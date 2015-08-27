@@ -60,26 +60,27 @@ passport.use(new LocalStrategy(
 	}
 ));
 
-// // do validation before authentication
-// router.post('/login', function(req, res) {
-// 	// console.log(req.body);
-// 	var username = req.body.username;
-// 	var password = req.body.password;
+// do validation before authentication
+router.post('/login', function(req, res, next) {
+	// console.log(req.body);
+	var username = req.body.username;
+	var password = req.body.password;
 
-// 	req.checkBody('username', 'Username field is required.').notEmpty();
-// 	req.checkBody('password', 'Password field is required.').notEmpty();
+	req.checkBody('username', 'Username field is required.').notEmpty();
+	req.checkBody('password', 'Password field is required.').notEmpty();
 
-// 	var errors = req.validationErrors();
+	var errors = req.validationErrors();
 
-// 	if (errors) {
-// 		res.render('login', { 
-// 			title: 'Log In',
-// 			errors: errors,
-// 			username: username,
-// 			password: password,
-// 		});
-// 	}
-// });
+	if (errors) {
+		res.render('login', { 
+			title: 'Log In',
+			errors: errors,
+			username: username,
+			password: password,
+		});
+	} else
+		next();
+});
 
 router.post('/login', passport.authenticate('local',
 	{failureRedirect: '/users/login', failureFlash: true}),
@@ -90,6 +91,9 @@ router.post('/login', passport.authenticate('local',
 	}
 );
 
+router.get('/logout', function(req, res) {
+
+})
 // Core registration operation
 router.post('/register', upload.array(), function(req, res, next) {
 	// Get form values
