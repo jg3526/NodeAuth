@@ -8,7 +8,7 @@ var expressValidator = require('express-validator');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var bodyParser = require('body-parser');
-var multer = require('multer');	// file upload helper
+// var multer = require('multer');	// file upload helper
 var flash = require('connect-flash');
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
@@ -25,9 +25,6 @@ console.log('Express initialized!');
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 console.log('Jade initilaized!');
-
-// handle file uploads
-// app.use(multer({ dest: './uploads' }));
 
 // uncomment after placing favicon in /public
 // app.user(favicon(__name + '/public/favicon.ico'));
