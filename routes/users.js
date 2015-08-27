@@ -8,6 +8,10 @@ var upload = multer({dest: './uploads/'});
 // include User model
 var User = require('../models/user');
 
+// authentication with passport model
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+
 router.get('/', function(req, res, next) {
 	res.send('respond with a resource');
 });
@@ -21,6 +25,71 @@ router.get('/login', function(req, res, next) {
 		'title': 'Log In'
 	});
 });
+
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+  User.getUserById(id, function(err, user) {
+    done(err, user);
+  });
+});
+
+// set up LocalStrategy
+passport.use(new LocalStrategy(
+	function(username, password, done){
+		console.log("I do not know why it does not work. \n" +
+		"I know now because there\'s no validation so that password field is undefined - - ");
+		User.getUserByUsername(username, function(err, user) {
+			if(err) throw err;
+			if(!user) {
+				console.log('Unknown user.');
+				return done(null, false, {message: 'Unknown User.'});
+			}
+			User.comparePassword(password, user.password, function(err, isMatch) {
+				if(err) throw err;
+				if(isMatch)
+					return done(null, user);
+				else {
+					console.log('Invalid password.');
+					return done(null, false, {message: 'Invalid Password.'});
+				}
+			});
+		});	
+	}
+));
+
+// // do validation before authentication
+// router.post('/login', function(req, res) {
+// 	// console.log(req.body);
+// 	var username = req.body.username;
+// 	var password = req.body.password;
+
+// 	req.checkBody('username', 'Username field is required.').notEmpty();
+// 	req.checkBody('password', 'Password field is required.').notEmpty();
+
+// 	var errors = req.validationErrors();
+
+// 	if (errors) {
+// 		res.render('login', { 
+// 			title: 'Log In',
+// 			errors: errors,
+// 			username: username,
+// 			password: password,
+// 		});
+// 	}
+// });
+
+router.post('/login', passport.authenticate('local',
+	{failureRedirect: '/users/login', failureFlash: true}),
+	function(req, res) {
+		console.log('Authentication Successful!');
+		req.flash('succss', 'Congratulations! You are logged in!');
+		res.redirect('/');
+	}
+);
+
 // Core registration operation
 router.post('/register', upload.array(), function(req, res, next) {
 	// Get form values
@@ -53,8 +122,8 @@ router.post('/register', upload.array(), function(req, res, next) {
 	}
 	// Form validation - using Express validator
 	req.checkBody('name', 'Name field is required.').notEmpty();
-	req.checkBody('email', 'Eamil field is required.').notEmpty();
-	req.checkBody('email', 'Eamil not valid.').isEmail();
+	req.checkBody('email', 'Email field is required.').notEmpty();
+	req.checkBody('email', 'Email not valid.').isEmail();
 	req.checkBody('username', 'Username field is required.').notEmpty();
 	req.checkBody('password', 'Password field is required.').notEmpty();
 	req.checkBody('password2', 'Passwords do not match.').equals(req.body.password);
