@@ -86,13 +86,15 @@ router.post('/login', passport.authenticate('local',
 	{failureRedirect: '/users/login', failureFlash: true}),
 	function(req, res) {
 		console.log('Authentication Successful!');
-		req.flash('succss', 'Congratulations! You are logged in!');
+		req.flash('success', 'Congratulations! You are logged in!');
 		res.redirect('/');
 	}
 );
 
 router.get('/logout', function(req, res) {
-
+	req.logout();
+	req.flash('success', 'You have logged out successfully.');
+	res.redirect('/users/login');
 })
 // Core registration operation
 router.post('/register', upload.array(), function(req, res, next) {
