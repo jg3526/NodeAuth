@@ -27,7 +27,9 @@
     "passport": "*",
     "passport-local": "*",
     "passport-http": "*",
-    "multer": "*"
+    "multer": "*",
+    "node-gyp": "*",
+    "bcrypt": "*"
   },
   "author": "Jie Gao",
   "license": "ISC",

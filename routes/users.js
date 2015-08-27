@@ -30,7 +30,7 @@ router.post('/register', upload.array(), function(req, res, next) {
 	var password = req.body.password;
 	var password2 = req.body.password2;
 
-	console.log(req.body);
+	// console.log(req.body);
 	// res.render('register', {
 	// 	'title': 'Register'
 	// });
@@ -61,7 +61,7 @@ router.post('/register', upload.array(), function(req, res, next) {
 
 	// Check for errors
 	var errors = req.validationErrors();
-	console.log(errors);
+	// console.log(errors);
 	if (errors) {
 		// this must be 'register' instead of '/register'
 		res.render('register', { 
