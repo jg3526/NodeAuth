@@ -95,7 +95,7 @@ router.get('/logout', function(req, res) {
 	req.logout();
 	req.flash('success', 'You have logged out successfully.');
 	res.redirect('/users/login');
-})
+});
 // Core registration operation
 router.post('/register', upload.array(), function(req, res, next) {
 	// Get form values
