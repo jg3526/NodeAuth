@@ -5,6 +5,9 @@ var router = express.Router();
 var multer = require('multer');
 var upload = multer({dest: './uploads/'});
 
+// include User model
+var User = require('../models/user');
+
 router.get('/', function(req, res, next) {
 	res.send('respond with a resource');
 });

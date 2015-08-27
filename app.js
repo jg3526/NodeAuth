@@ -11,8 +11,8 @@ var bodyParser = require('body-parser');
 // var multer = require('multer');	// file upload helper
 var flash = require('connect-flash');
 var mongo = require('mongodb');
-var mongoose = require('mongoose');
-var db = mongoose.connection;
+// var mongoose = require('mongoose');
+// var db = mongoose.connection;
 var port = 3000;
 
 var routes = require('./routes/index');
